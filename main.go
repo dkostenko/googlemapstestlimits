@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"math/rand"
 	"net/http"
 	"time"
@@ -86,7 +87,7 @@ func printResAndStatistic(statistic map[string]int, requestUrl string, googleRes
 func main() {
 	statistic := make(map[string]int)
 
-	for i := 1; ; i++ {
+	for i := 1; i < int(math.MaxInt32); i++ {
 		lat, lon := randomLatLon()
 		requestUrl := fmt.Sprintf("https://maps.googleapis.com/maps/api/geocode/json?latlng=%v,%v", lat, lon)
 
@@ -99,7 +100,7 @@ func main() {
 
 		err = printResAndStatistic(statistic, requestUrl, googleRes, i)
 		if err != nil {
-			panic(err)
+			return
 		}
 
 		time.Sleep(200 * time.Millisecond)
